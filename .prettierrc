@@ -1,0 +1,23 @@
+{
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": false,
+  "jsxSingleQuote": false,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "quoteProps": "consistent",
+  "arrowParens": "always",
+  "proseWrap": "always",
+  "endOfLine": "auto",
+  "overrides": [
+    {
+      "files": ["*.json", ".prettierrc", ".eslintrc", ".stylelintrc"],
+      "options": {
+        "trailingComma": "none"
+      }
+    }
+  ]
+}
