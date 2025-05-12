@@ -1,5 +1,4 @@
 import { TestAuthApi } from "@/features/example/components/TestAuthApi";
-
 export default function ExamplePage() {
   return (
     <div>

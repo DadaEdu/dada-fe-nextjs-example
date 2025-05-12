@@ -1,11 +1,14 @@
 import Image from "next/image";
 
 import styles from "./page.module.css";
-
+import ExamplePage from "./example/page.tsx";
+import TimerPage from "./timer/page";
 export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <ExamplePage/>
+        <TimerPage/>
         <Image
           className={styles.logo}
           src="/next.svg"

@@ -31,14 +31,24 @@ const RefetchButton = styled.button`
   cursor: pointer;
 `;
 
-export const TestAuthApi: React.FC = () => {
+export const TestAuthApi: React.FC = () => { //useQuery에서 관리하는 데이터를 구조분해
   const {
     data: getUserInfoData,
     isLoading: getUserInfoIsLoading,
     error: getUserInfoError,
     refetch: refetchUserInfo,
   } = useGetUserInfo();
-
+  console.log("data", getUserInfoData);  //undefined
+  console.log("isLoading", getUserInfoIsLoading);  //true or false
+  console.log("error", getUserInfoError);  //null or 
+  // data ReferenceError: thinking is not defined - 에러메시지
+  // at getAccessToken (navigator.credentials.ts:2:3)
+  // at onFulfilled (axiosAuthTokenInterceptor.ts:8:44)
+  // at async Axios.request (Axios.js:40:14)
+  // at async useGetUserInfo.useQuery (useGetUserInfo.ts:22:24)
+  // at Axios.request (Axios.js:45:41)
+  // at async useGetUserInfo.useQuery (useGetUserInfo.ts:22:24)
+  
   return (
     <TestApiContainer>
       <TestApiHeader>Test Get User Info</TestApiHeader>
