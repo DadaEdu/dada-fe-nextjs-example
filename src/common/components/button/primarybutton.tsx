@@ -1,8 +1,9 @@
 "use client";
 
-import FilledButton from "./FilledButton";
+import FilledButton from "./filledButton";
 import styled from "styled-components";
 
+// FilledButton 의 스타일을 불러와서(button) 스타일 확장
 const PrimaryStyledButton = styled(FilledButton)`
   background-color: #2170eb;
   color: #ffffff;

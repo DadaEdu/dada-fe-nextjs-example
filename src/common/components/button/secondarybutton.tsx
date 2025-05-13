@@ -1,7 +1,7 @@
 "use client";
 
 import styled from "styled-components";
-import FilledButton from "./FilledButton";
+import FilledButton from "./filledButton";
 
 const SecondaryStyledButton = styled(FilledButton)`
   background-color: rgba(0, 0, 0, 0.12);
