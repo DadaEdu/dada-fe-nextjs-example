@@ -86,17 +86,17 @@ layout.tsx
 ```
 UseClientProvider.tsx
 * styled-components의 ThemeProvider - 스타일 하위 컴포넌트에 전체 적용
-* React Query의 QueryClientProvider - defaultOptions.staleTime으로 캐시 유지 시간 설정
+* React Query의 QueryClientProvider - defaultOptions.staleTime으로 캐시 유지 시간 설정  
 {/** QueryClient - 이 코드가 필요한 이유
 
-  여러 컴포넌트에서 useQuery()를 쓸 때, 같은 캐시와 상태를 공유할 수 있음
+  여러 컴포넌트에서 useQuery()를 쓸 때, 같은 캐시와 상태를 공유할 수 있음  
   상태 유지	QueryClient를 한 번만 생성함으로써 불필요한 API 재요청 방지
 
   ### providers 폴더 내의 컴포넌트는 layout.tsx에서 사용되면서 전역으로 사용되게 되는데, 
   ### 그렇다면 Context를 사용한 전역 상태관리도 가능하다는 말!!
  */}
-* ReactQueryDevtools 연결
-// 개발 도구로, 브라우저에서 react-query 캐시 상태나 요청 상태를 확인할 수 있게 해줌
+* ReactQueryDevtools 연결  
+// 개발 도구로, 브라우저에서 react-query 캐시 상태나 요청 상태를 확인할 수 있게 해줌  
 // 개발할 때만 활성화, 배포 시엔 자동 제거하거나 조건 처리 가능
 
 # 2. /example 페이지 흐름
@@ -105,8 +105,10 @@ localhost:3000/example로 이동
 /app/example/page.tsx
 
 * TestAuthApi 컴포넌트를 불러옴 → 사용자 정보 요청 실행
-TestAuthApi/index.tsx
+TestAuthApi/index.tsx  
+```tsx
 const { data, isLoading, error, refetch } = useGetUserInfo();
+```
 * useGetUserInfo()는 react-query 기반 API 호출      /services/useGetUserInfo
 * 내부에서 axiosClientWithAuth로 인증이 필요한 커스텀 axios 인스턴스 호출      /lib/axios
 * axios.ts에서는 /_axios에 있는 인터셉터를 통해서 api 요청/응답 전처리(ex. 토큰, 에러)
@@ -130,14 +132,16 @@ example/page.tsx
 
 ## /example을 통해 알 수 있는 점
  #### 1. 'use client'란?
-  NextJs는 기본적으로 서버 클라이언트이다. use client는 클라이언트 컴포넌트로 선언 
-  (javascript 동작기능이나 React hook 등을 사용해야할 때 && styled-component를 사용할 때)
+  NextJs는 기본적으로 서버 클라이언트이다. use client는 클라이언트 컴포넌트로 선언   
+  (javascript 동작기능이나 React hook 등을 사용해야할 때 && styled-component를 사용할 때)  
+
   서버 클라이언트의 이점 : https://nextjs.org/docs/app/building-your-application/rendering/server-components
 
  #### 2. useQuery<TData - 서버로부터 받아올 응답 데이터의 타입 , TError - 에러객체 타입> 
-=> 서버에서 데이터를 가져오고(fetch), 캐싱하며, 로딩/에러/성공 상태를 자동으로 관리하는 React Hook
-=> 주로 get요청에 사용
-// 번외. useMutation => POST 방식
+=> 서버에서 데이터를 가져오고(fetch), 캐싱하며, 로딩/에러/성공 상태를 자동으로 관리하는 React Hook  
+=> 주로 get요청에 사용  
+
+// 번외. useMutation => POST 방식  
 
 #### 3. axios.create 
 ```tsx
@@ -146,7 +150,7 @@ example/page.tsx
   baseURL: BASE_URL, // 기본 주소
 });
 ```
-  axios.create()로 인스턴스를 만들면:
+  axios.create()로 인스턴스를 만들면:  
   * baseURL, 헤더, 타임아웃, 인증 등 모든 공통 설정을 미리 지정 가능
   * interceptors (요청/응답 가로채기) 적용도 분리 가능
   * 기능별로 axiosClient, axiosClientWithAuth처럼 인스턴스를 나눌 수 있음
@@ -161,7 +165,7 @@ example/page.tsx
 ```ts
   import z from "zod";
 ```
-  // Zod는 TypeScript와 함께 쓰는 런타임 스키마(validation) 라이브러리
+  // Zod는 TypeScript와 함께 쓰는 런타임 스키마(validation) 라이브러리  
   // 주로 입력값 유효성 검사(Validation) 와 타입 추론(Type Inference)
 
 # /timer 흐름
@@ -173,9 +177,9 @@ localhost:3000/timer로 이동
 * 각각 styled(BaseButton) 형태로 스타일만 바꾼 공통 버튼 컴포넌트
 
 #### 버튼 구조
-FilledButton → 파란색 (#3b82f6)
-PrimaryButton → 진한 파란색 (#2170eb)
-SecondaryButton → 회색 (#e5e7eb)
+FilledButton → 파란색 (#3b82f6)  
+PrimaryButton → 진한 파란색 (#2170eb)  
+SecondaryButton → 회색 (#e5e7eb)  
 * BaseButton에서 공통 props(onClick, children, className)을 관리
 * styled-components로 시각적 확장만 다르게 함
 * 각각의 버튼 클릭 시 alert창 open
@@ -236,8 +240,8 @@ declare const thinking: {
 ```
 * thinking.app은 자사 플러그인 구조에서 사용되는 obj로 외부 환경에서 주입되는 값
 * 인증은 기본적으로 accesstoken, refreshtoken 구조를 가짐.
-    accessToken (짧은 수명, API 요청 시 사용)
-    refreshToken (긴 수명, accessToken 재발급용)
+    accessToken (짧은 수명, API 요청 시 사용)  
+    refreshToken (긴 수명, accessToken 재발급용)  
 * 실제 값은 런타임 환경에서 주입되어야 함
 
 
