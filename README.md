@@ -184,7 +184,7 @@ SecondaryButton → 회색 (#e5e7eb)
 * styled-components로 시각적 확장만 다르게 함
 * 각각의 버튼 클릭 시 alert창 open
 
-### /timer를 통해 알 수 있는 점
+## /timer를 통해 알 수 있는 점
 #### 사용되지 않는 코드 (Dead Code)
 BaseButton.tsx
 ```tsx
