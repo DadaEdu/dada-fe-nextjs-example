@@ -37,7 +37,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 # 1. 프로젝트 기본 구조
-
+<pre><code>```txt 
 src/
 ├── app/                     # Next.js App Router 기반 페이지 경로
 │   ├── layout.tsx           # 모든 페이지를 감싸는 루트 레이아웃
@@ -74,9 +74,9 @@ src/
 │   └── logger.ts                   # loglevel 기반 logger 설정
 │
 └── types.d.ts                # declare const thinking 객체 타입 선언(전역)
+```</code></pre>
 
-
-## 전역 Provider 흐름
+# 1. 전역 Provider 흐름
 
 layout.tsx
   <UseClientProvider>
@@ -98,7 +98,7 @@ UseClientProvider.tsx
 // 개발 도구로, 브라우저에서 react-query 캐시 상태나 요청 상태를 확인할 수 있게 해줌
 // 개발할 때만 활성화, 배포 시엔 자동 제거하거나 조건 처리 가능
 
-## /example 페이지 흐름
+# 2. /example 페이지 흐름
 localhost:3000/example로 이동
 
 /app/example/page.tsx
@@ -126,17 +126,17 @@ example/page.tsx
 * 로그인된 사용자 정보를 전역에서 받아오기 위한 구조 완성
 
 ## /example을 통해 알 수 있는 점
- ### 'use client'란?
+ #### 1. 'use client'란?
   NextJs는 기본적으로 서버 클라이언트이다. use client는 클라이언트 컴포넌트로 선언 
   (javascript 동작기능이나 React hook 등을 사용해야할 때 && styled-component를 사용할 때)
   서버 클라이언트의 이점 : https://nextjs.org/docs/app/building-your-application/rendering/server-components
 
- ### useQuery<TData - 서버로부터 받아올 응답 데이터의 타입 , TError - 에러객체 타입> 
+ #### 2. useQuery<TData - 서버로부터 받아올 응답 데이터의 타입 , TError - 에러객체 타입> 
 => 서버에서 데이터를 가져오고(fetch), 캐싱하며, 로딩/에러/성공 상태를 자동으로 관리하는 React Hook
 => 주로 get요청에 사용
 // 번외. useMutation => POST 방식
 
-### axios.create 
+#### 3. axios.create 
   export const axiosClientWithAuth = axios.create({ //커스텀 axios 인스턴스 생성
   withCredentials: true, // 쿠키나 인증 정보 포함 요청 허용
   baseURL: BASE_URL, // 기본 주소
@@ -146,7 +146,7 @@ example/page.tsx
   * interceptors (요청/응답 가로채기) 적용도 분리 가능
   * 기능별로 axiosClient, axiosClientWithAuth처럼 인스턴스를 나눌 수 있음
 
-### logger란?
+#### 4. logger란?
   export default logger;
 * 개발 환경에서는 logger.debug(), logger.error() 등을 활성화해 디버깅 로그를 출력
 * 운영(production) 환경에서는 로그를 출력하지 않도록 SILENT 설정
@@ -155,7 +155,7 @@ example/page.tsx
   // Zod는 TypeScript와 함께 쓰는 런타임 스키마(validation) 라이브러리
   // 주로 입력값 유효성 검사(Validation) 와 타입 추론(Type Inference)
 
-## /timer 흐름
+# /timer 흐름
 localhost:3000/timer로 이동
 
 /app/timer/page.tsx
@@ -163,7 +163,7 @@ localhost:3000/timer로 이동
 * FilledButton, PrimaryButton, SecondaryButton을 import하여 UI 구성
 * 각각 styled(BaseButton) 형태로 스타일만 바꾼 공통 버튼 컴포넌트
 
-### 버튼 구조
+#### 버튼 구조
 FilledButton → 파란색 (#3b82f6)
 PrimaryButton → 진한 파란색 (#2170eb)
 SecondaryButton → 회색 (#e5e7eb)
@@ -171,17 +171,16 @@ SecondaryButton → 회색 (#e5e7eb)
 * styled-components로 시각적 확장만 다르게 함
 * 각각의 버튼 클릭 시 alert창 open
 
-## /timer를 통해 알 수 있는 점
-
-### 사용되지 않는 코드 (Dead Code)
+### /timer를 통해 알 수 있는 점
+#### 사용되지 않는 코드 (Dead Code)
 BaseButton.tsx
 return { handleClick }; // JSX 반환이 아님 → 죽은 컴포넌트
 → 현재는 아무 곳에서도 사용되지 않으며, 삭제 가능
 
-## 개선방향
-//handleClick을 외부에서 쓰게하려고 했다면 훅으로(useBaseButton)
+#### 개선방향
+//handleClick을 외부에서 쓰게하려고 했다면 훅(useBaseButton)
 
-아니면 공통컴포넌트로 
+또는 공통컴포넌트로(아래 예시)
 ```js
   "use client";
 
@@ -217,12 +216,14 @@ export default function BaseButton({
 
 ## 전역 객체 thinking 타입 처리
 // types.d.ts
+```js 
 declare const thinking: {
   app: {
     getAccessToken: () => Promise<string>;
     getProfileId: () => Promise<number | null>;
   };
 };
+```
 * thinking.app은 자사 플러그인 구조에서 사용되는 obj로 외부 환경에서 주입되는 값
 * 인증은 기본적으로 accesstoken, refreshtoken 구조를 가짐.
     accessToken (짧은 수명, API 요청 시 사용)
