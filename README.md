@@ -36,7 +36,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 
-# 1. 프로젝트 기본 구조
+# 프로젝트 기본 구조
 <pre><code>```txt 
 src/
 ├── app/                     # Next.js App Router 기반 페이지 경로
