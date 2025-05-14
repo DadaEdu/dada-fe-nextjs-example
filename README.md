@@ -92,8 +92,8 @@ UseClientProvider.tsx
   여러 컴포넌트에서 useQuery()를 쓸 때, 같은 캐시와 상태를 공유할 수 있음  
   상태 유지	QueryClient를 한 번만 생성함으로써 불필요한 API 재요청 방지
 
-  ### providers 폴더 내의 컴포넌트는 layout.tsx에서 사용되면서 전역으로 사용되게 되는데, 
-  ### 그렇다면 Context를 사용한 전역 상태관리도 가능하다는 말!!
+  #### providers 폴더 내의 컴포넌트는 layout.tsx에서 사용되면서 전역으로 사용되게 되는데, 
+  #### 그렇다면 Context를 사용한 전역 상태관리도 가능하다는 말!!
  */}
 * ReactQueryDevtools 연결  
 // 개발 도구로, 브라우저에서 react-query 캐시 상태나 요청 상태를 확인할 수 있게 해줌  
@@ -168,7 +168,7 @@ example/page.tsx
   // Zod는 TypeScript와 함께 쓰는 런타임 스키마(validation) 라이브러리  
   // 주로 입력값 유효성 검사(Validation) 와 타입 추론(Type Inference)
 
-# /timer 흐름
+# 3. /timer 흐름
 localhost:3000/timer로 이동
 
 /app/timer/page.tsx
@@ -228,7 +228,7 @@ export default function BaseButton({
 }
 ```
 
-## 전역 객체 thinking 타입 처리
+# 4. 전역 객체 thinking 타입 처리
 // types.d.ts
 ```ts
 declare const thinking: {
@@ -239,7 +239,7 @@ declare const thinking: {
 };
 ```
 * thinking.app은 자사 플러그인 구조에서 사용되는 obj로 외부 환경에서 주입되는 값
-* 인증은 기본적으로 accesstoken, refreshtoken 구조를 가짐.
+* 인증은 기본적으로 accesstoken, refreshtoken 구조를 가짐.  
     accessToken (짧은 수명, API 요청 시 사용)  
     refreshToken (긴 수명, accessToken 재발급용)  
 * 실제 값은 런타임 환경에서 주입되어야 함
