@@ -35,7 +35,7 @@ export const UseClientProvider: React.FC<React.PropsWithChildren> = ({ // App �
       <StyledProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           {children}
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools initialIsOpen={false} /> {/** 브라우저에서 Devtools가 처음에 열릴지 여부 */}
         </QueryClientProvider>
       </StyledProvider>
     </main>

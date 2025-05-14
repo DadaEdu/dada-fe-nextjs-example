@@ -1,5 +1,5 @@
 export const getAccessToken = async () => { //토큰 가져오기
-  return await thinking.app.getAccessToken();  //전역 객체의 메서드를 호출하는 코드인데 이게 뭘 의미하는 지 모르겠네
+  return await thinking.app.getAccessToken();  
 };
 
 export const getProfileId = async (): Promise<number | null> => { //ID 가져오기
