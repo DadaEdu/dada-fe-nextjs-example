@@ -79,10 +79,11 @@ src/
 # 1. 전역 Provider 흐름
 
 layout.tsx
+```tsx
   <UseClientProvider>
     {children} // 모든 페이지의 컴포넌트
   </UseClientProvider>
-
+```
 UseClientProvider.tsx
 * styled-components의 ThemeProvider - 스타일 하위 컴포넌트에 전체 적용
 * React Query의 QueryClientProvider - defaultOptions.staleTime으로 캐시 유지 시간 설정
@@ -113,6 +114,7 @@ const { data, isLoading, error, refetch } = useGetUserInfo();
 
 
 ### 관련 연결 흐름
+<pre><code>```txt 
 example/page.tsx
   ↳ TestAuthApi (features/example/components)
       ↳ useGetUserInfo (features/example/services)
@@ -122,7 +124,8 @@ example/page.tsx
                         ↳ thinking.app.토큰&ID # 외부에서 받아옴(declare로 타입 선언)
               ↳ errorInterceptor (lib/_axios/axiosErrorInterceptor.ts)
                   ↳ logger (utils/logger.ts)
-              
+                  ```</code></pre>
+
 * 로그인된 사용자 정보를 전역에서 받아오기 위한 구조 완성
 
 ## /example을 통해 알 수 있는 점
@@ -137,21 +140,27 @@ example/page.tsx
 // 번외. useMutation => POST 방식
 
 #### 3. axios.create 
+```tsx
   export const axiosClientWithAuth = axios.create({ //커스텀 axios 인스턴스 생성
   withCredentials: true, // 쿠키나 인증 정보 포함 요청 허용
   baseURL: BASE_URL, // 기본 주소
 });
+```
   axios.create()로 인스턴스를 만들면:
   * baseURL, 헤더, 타임아웃, 인증 등 모든 공통 설정을 미리 지정 가능
   * interceptors (요청/응답 가로채기) 적용도 분리 가능
   * 기능별로 axiosClient, axiosClientWithAuth처럼 인스턴스를 나눌 수 있음
 
 #### 4. logger란?
+```ts
   export default logger;
+```
 * 개발 환경에서는 logger.debug(), logger.error() 등을 활성화해 디버깅 로그를 출력
 * 운영(production) 환경에서는 로그를 출력하지 않도록 SILENT 설정
 * axiosErrorInterceptor.ts 등에서 공통 에러 로깅 용도로 활용됨
+```ts
   import z from "zod";
+```
   // Zod는 TypeScript와 함께 쓰는 런타임 스키마(validation) 라이브러리
   // 주로 입력값 유효성 검사(Validation) 와 타입 추론(Type Inference)
 
@@ -174,14 +183,15 @@ SecondaryButton → 회색 (#e5e7eb)
 ### /timer를 통해 알 수 있는 점
 #### 사용되지 않는 코드 (Dead Code)
 BaseButton.tsx
+```tsx
 return { handleClick }; // JSX 반환이 아님 → 죽은 컴포넌트
-→ 현재는 아무 곳에서도 사용되지 않으며, 삭제 가능
-
+// 현재는 아무 곳에서도 사용되지 않으며, 삭제 가능
+```
 #### 개선방향
 //handleClick을 외부에서 쓰게하려고 했다면 훅(useBaseButton)
 
 또는 공통컴포넌트로(아래 예시)
-```js
+```tsx
   "use client";
 
 import { ReactNode } from "react";
@@ -216,7 +226,7 @@ export default function BaseButton({
 
 ## 전역 객체 thinking 타입 처리
 // types.d.ts
-```js 
+```ts
 declare const thinking: {
   app: {
     getAccessToken: () => Promise<string>;
@@ -231,3 +241,9 @@ declare const thinking: {
 * 실제 값은 런타임 환경에서 주입되어야 함
 
 
+# 요약
+* 전역 Provider는 layout.tsx에서 한번만 적용하면 하위 전역 상태/스타일/API 모두 관리됨
+* /example: 사용자 인증 및 API 호출 중심 흐름
+* /timer: 버튼 스타일 시스템과 공통 컴포넌트 확장 예제
+* thinking.app: 외부 전역 객체의 타입 선언 및 안전한 사용 기반
+* lib/_axios 하위 인터셉터는 utils 폴더에서 getAccessToken / logger 등을 import하여 기능 확장
