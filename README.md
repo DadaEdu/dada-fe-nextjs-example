@@ -41,19 +41,21 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 src/
 ├── app/                     # Next.js App Router 기반 페이지 경로
 │   ├── layout.tsx           # 모든 페이지를 감싸는 루트 레이아웃
-│   ├── page.tsx             # 홈 페이지(초기) - NextJs 공식문서로 안내
+│   ├── page.tsx             # /
 │   ├── example/page.tsx     # /example 경로
 │   └── timer/page.tsx       # /timer 경로
 │
-├── common/
+├── common/                 #재사용성, 전역성, 독립성을 기준으로 분류(확장성, 일관성을 가짐)
 │   ├── components/
-│   │   └── buttons/         # 공통 버튼 컴포넌트
-│   │       ├── BaseButton.tsx
-│   │       ├── FilledButton.tsx
-│   │       ├── PrimaryButton.tsx
-│   │       └── SecondaryButton.tsx
-│   └── providers/
-│       ├── UseClientProvider.tsx   # 전역 Provider 설정
+│   │   └── buttons/         # 공통 버튼 컴포넌트 - 재사용 가능한 UI 컴포넌트들의 집합
+│   │       ├── BaseButton.tsx # 기본 버튼 컴포넌트
+│   │       ├── FilledButton.tsx # 파란색 배경 버튼
+│   │       ├── PrimaryButton.tsx # 진한 파란색 버튼
+│   │       └── SecondaryButton.tsx # 회색 버튼
+│   └── providers/ #전역 Provider 컴포넌트 - 애플리케이션의 전역 설정을 관리
+│       ├── UseClientProvider.tsx   # styled-components의 ThemeProvider
+│                                   # ReactQuery의 QueryClientProvider
+│                                   # ReactQueryDevtools 연결
 │       
 │
 ├── features/
@@ -65,9 +67,9 @@ src/
 │
 ├── lib/
 │   ├── axios.ts                    # axios 인스턴스 및 인터셉터 설정
-│   └── _axios/
-│       ├── axiosAuthTokenInterceptor.ts  # utils/navigator.credentials.ts, utils/logger.ts 사용
-│       └── axiosErrorInterceptor.ts      # utils/logger.ts 사용
+│   └── _axios/           # 내부 구현용(외부에서 직접 import X), 구현 세부사항을 담고 있음(인터셉터)
+│    ├── axiosAuthTokenInterceptor.ts  # utils/navigator.credentials.ts, utils/logger.ts 사용
+│    └── axiosErrorInterceptor.ts      # utils/logger.ts 사용
 │
 ├── utils/
 │   ├── navigator.credentials.ts    # getAccessToken, getProfileId 정의
@@ -94,10 +96,37 @@ UseClientProvider.tsx
 
   #### providers 폴더 내의 컴포넌트는 layout.tsx에서 사용되면서 전역으로 사용되게 되는데, 
   #### 그렇다면 Context를 사용한 전역 상태관리도 가능하다는 말!!
+  #### 주의사항 : 1. 서버/클라이언트 컴포넌트의 구분 - Context는 반드시 클라이언트 컴포넌트에서
+  ####          2. 불필요한 리렌더링 방지 ex. useMemo 사용
+  ####          3. Context 타입 정의
+  ####          4. Provider 순서 고려
  */}
 * ReactQueryDevtools 연결  
 // 개발 도구로, 브라우저에서 react-query 캐시 상태나 요청 상태를 확인할 수 있게 해줌  
 // 개발할 때만 활성화, 배포 시엔 자동 제거하거나 조건 처리 가능
+// 개발할 때만 활성화 ex.
+```tsx
+'use client'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+export const UseClientProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const [queryClient] = React.useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000,
+      },
+    },
+  }))
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      {process.env.NODE_ENV === 'development' && <ReactQueryDevtools />}
+    </QueryClientProvider>
+  )
+}
+```
 
 # 2. /example 페이지 흐름
 localhost:3000/example로 이동

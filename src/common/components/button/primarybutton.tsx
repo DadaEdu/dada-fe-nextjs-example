@@ -1,6 +1,6 @@
 "use client";
 
-import FilledButton from "./filledButton";
+import FilledButton from "./FilledButton";
 import styled from "styled-components";
 
 // FilledButton 의 스타일을 불러와서(button) 스타일 확장

@@ -12,10 +12,9 @@ export default function BaseButton({ onClick }: BaseButtonProps) {
   return { handleClick }; // 화면에 아무것도 안 보임 - jsx 반환 X
 }
 
-//handleClick을 외부에서 쓰게하려고 했다면 훅으로(useBaseButton) 하는게 낫지 않나
 
 
-{/** 아니면 공통컴포넌트로 
+{/**  공통컴포넌트로 사용하려면 
   "use client";
 
 import { ReactNode } from "react";
