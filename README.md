@@ -48,11 +48,11 @@ src/
 ├── common/                 #재사용성, 전역성, 독립성을 기준으로 분류(확장성, 일관성을 가짐)
 │   ├── components/
 │   │   └── buttons/         # 공통 버튼 컴포넌트 - 재사용 가능한 UI 컴포넌트들의 집합
-│   │       ├── BaseButton.tsx # 기본 버튼 컴포넌트
-│   │       ├── FilledButton.tsx # 파란색 배경 버튼
-│   │       ├── PrimaryButton.tsx # 진한 파란색 버튼
-│   │       └── SecondaryButton.tsx # 회색 버튼
-│   └── providers/ #전역 Provider 컴포넌트 - 애플리케이션의 전역 설정을 관리
+│   │       ├── BaseButton.tsx          # 기본 버튼 컴포넌트
+│   │       ├── FilledButton.tsx        # 파란색 배경 버튼
+│   │       ├── PrimaryButton.tsx       # 진한 파란색 버튼
+│   │       └── SecondaryButton.tsx     # 회색 버튼
+│   └── providers/                  #전역 Provider 컴포넌트 - 애플리케이션의 전역 설정을 관리
 │       ├── UseClientProvider.tsx   # styled-components의 ThemeProvider
 │                                   # ReactQuery의 QueryClientProvider
 │                                   # ReactQueryDevtools 연결
@@ -103,8 +103,8 @@ UseClientProvider.tsx
  */}
 * ReactQueryDevtools 연결  
 // 개발 도구로, 브라우저에서 react-query 캐시 상태나 요청 상태를 확인할 수 있게 해줌  
-// 개발할 때만 활성화, 배포 시엔 자동 제거하거나 조건 처리 가능
-// 개발할 때만 활성화 ex.
+// 개발할 때만 활성화, 배포 시엔 자동 제거하거나 조건 처리 가능  
+// 개발할 때만 활성화 ex.  
 ```tsx
 'use client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
