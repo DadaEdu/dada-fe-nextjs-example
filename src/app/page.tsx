@@ -1,8 +1,7 @@
 import Image from "next/image";
 
 import styles from "./page.module.css";
-
-export default function Home() {
+export default function Home() { //초기 페이지 NextJs 공식페이지 이동 버튼이 포함되어있음
   return (
     <div className={styles.page}>
       <main className={styles.main}>

@@ -4,13 +4,13 @@ import logger from "@/utils/logger";
 
 const errorInterceptor = {
   onFulfilled(values: AxiosResponse) {
-    return values;
+    return values; // 성공 응답은 통과
   },
   async onRejected(error: AxiosError) {
     switch (error.response?.status) {
-      case HttpStatusCode.Unauthorized: {
+      case HttpStatusCode.Unauthorized: {// 토큰 만료, 미인증 상태
         // try {
-        //   const response = await postRefresh();
+        //   const response = await postRefresh(); // 토큰 재발급
         //   // TODO: 로그인시 기본 프로필 선택
         //   setLocalStorageItem(
         //     "responseToken",
@@ -38,7 +38,7 @@ const errorInterceptor = {
         logger.log("Token Authentication Failed");
         return Promise.reject(error);
       }
-      // case HttpStatusCode.Forbidden: {
+      // case HttpStatusCode.Forbidden: { //권한 없음(인증은 되었지만 허용되지 않은 자원 접근)
       //   const previousPage = document.referrer;
 
       //   if (previousPage.startsWith(window.location.origin)) {

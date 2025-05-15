@@ -1,6 +1,7 @@
-"use client";
+"use client"; // 클라이언트 컴포넌트 선언 -> javascript 동작기능이나 React hook 등을 사용해야할 때
 
 import styled from "styled-components";
+//styled-components -> use client 필요
 
 import { useGetUserInfo } from "../../services/useGetUserInfo";
 
@@ -31,14 +32,15 @@ const RefetchButton = styled.button`
   cursor: pointer;
 `;
 
-export const TestAuthApi: React.FC = () => {
-  const {
+export const TestAuthApi: React.FC = () => { // React.FC - Functional Component를 타입스크립트에서 명확히 정의해주는 타입
+  const { //useQuery에서 관리하는 데이터를 구조분해 -> 타입설정이 필요하지 않은 이유는?? -> 이미 타입이 지정된 useQuery를 리턴
     data: getUserInfoData,
     isLoading: getUserInfoIsLoading,
     error: getUserInfoError,
-    refetch: refetchUserInfo,
-  } = useGetUserInfo();
+    refetch: refetchUserInfo, //refetch는 내부적으로 queryFn을 다시 실행
+  } = useGetUserInfo(); // 리액트 훅
 
+  
   return (
     <TestApiContainer>
       <TestApiHeader>Test Get User Info</TestApiHeader>
